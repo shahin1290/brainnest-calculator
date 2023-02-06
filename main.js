@@ -1,28 +1,24 @@
-let currentNum = "";
-let previousNum = "";
-let operator = "";
-
-const currentDisplayNumber = document.querySelector(".output");
-const previousDisplayNumber = document.querySelector(".history");
+const outputDisplayNumber = document.querySelector(".output");
+const historyDisplayNumber = document.querySelector(".history");
 const equal = document.querySelector(".equal");
 const decimal = document.querySelector(".dot");
 const clear = document.querySelector(".clear");
 const deleteButton = document.querySelector(".delete");
 const numberButtons = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
-const changeButton = document.querySelector(".change");
 
-window.addEventListener("keydown", handleKeyPress);
+let currentNum = "";
+let previousNum = "";
+let operator = "";
 
 equal.addEventListener("click", compute);
 decimal.addEventListener("click", addDecimal);
 clear.addEventListener("click", clearCalculator);
 deleteButton.addEventListener("click", handleDelete);
-numberButtons.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    handleNumber(e.target.textContent);
-  });
-});
+numberButtons.forEach((btn) =>
+  btn.addEventListener("click", (e) => handleNumber(e.target.textContent))
+);
+window.addEventListener("keydown", handleKeyboardEvent);
 
 operators.forEach((btn) => {
   btn.addEventListener("click", (e) => {
@@ -36,8 +32,7 @@ function handleNumber(number) {
   } else {
     currentNum += number;
   }
-
-  currentDisplayNumber.textContent = currentNum;
+  updateTextContent(outputDisplayNumber, currentNum);
 }
 
 function handleOperator(op) {
@@ -50,15 +45,15 @@ function handleOperator(op) {
   } else {
     compute();
     operator = op;
-    currentDisplayNumber.textContent = "";
-    previousDisplayNumber.textContent = previousNum + " " + operator;
+    updateTextContent(outputDisplayNumber, "");
+    updateTextContent(historyDisplayNumber, previousNum + " " + operator);
   }
 }
 
 function operatorCheck(text) {
   operator = text;
-  previousDisplayNumber.textContent = previousNum + " " + operator;
-  currentDisplayNumber.textContent = "";
+  updateTextContent(historyDisplayNumber, previousNum + " " + operator);
+  updateTextContent(outputDisplayNumber, "");
   currentNum = "";
 }
 
@@ -66,9 +61,7 @@ function compute() {
   let result;
   const parsedPreviousNumber = parseFloat(previousNum);
   const parsedCurrentNumber = parseFloat(currentNum);
-
   if (isNaN(parsedPreviousNumber) || isNaN(parsedCurrentNumber)) return;
-
   switch (operator) {
     case "+":
       result = parsedPreviousNumber + parsedCurrentNumber;
@@ -80,37 +73,28 @@ function compute() {
       result = parsedPreviousNumber * parsedCurrentNumber;
       break;
     case "/":
+      if (currentNum <= 0) {
+        previousNum = "Error";
+        displayResults();
+        previousNum = "";
+        return;
+      }
       result = parsedPreviousNumber / parsedCurrentNumber;
       break;
     default:
       return;
   }
-
-  // if (operator === "+") {
-  //   previousNum += currentNum;
-  // } else if (operator === "-") {
-  //   previousNum -= currentNum;
-  // } else if (operator === "x") {
-  //   previousNum *= currentNum;
-  // } else if (operator === "%") {
-  //   previousNum %= currentNum;
-  // } else if (operator === "/") {
-  //   if (currentNum <= 0) {
-  //     previousNum = "Error";
-  //     displayResults();
-  //     return;
-  //   }
-  //   previousNum /= currentNum;
-  // }
-
-  console.log(result);
   previousNum = result.toString();
   displayResults();
 }
 
+function updateTextContent(displayNumber, value) {
+  displayNumber.textContent = value;
+}
+
 function displayResults() {
-  currentDisplayNumber.textContent = previousNum;
-  previousDisplayNumber.textContent = "";
+  updateTextContent(outputDisplayNumber, previousNum);
+  updateTextContent(historyDisplayNumber, "");
   operator = "";
   currentNum = "";
 }
@@ -119,21 +103,20 @@ function clearCalculator() {
   currentNum = "";
   previousNum = "";
   operator = "";
-  currentDisplayNumber.textContent = "";
-  previousDisplayNumber.textContent = "";
+  outputDisplayNumber.textContent = "";
+  historyDisplayNumber.textContent = "";
 }
 
 function addDecimal() {
   if (!currentNum) {
     currentNum = "0.";
-    currentDisplayNumber.textContent = currentNum;
   } else if (!currentNum.includes(".")) {
     currentNum += ".";
-    currentDisplayNumber.textContent = currentNum;
   }
+  updateTextContent(outputDisplayNumber, currentNum);
 }
 
-function handleKeyPress(e) {
+function handleKeyboardEvent(e) {
   e.preventDefault();
   if (e.key >= 0 && e.key <= 9) {
     handleNumber(e.key);
@@ -161,11 +144,11 @@ function handleKeyPress(e) {
 function handleDelete() {
   if (currentNum && !previousNum) {
     currentNum = currentNum.slice(0, -1);
-    currentDisplayNumber.textContent = currentNum;
+    updateTextContent(outputDisplayNumber, currentNum);
   } else {
     currentNum = previousNum;
-    currentDisplayNumber.textContent = previousNum;
+    updateTextContent(outputDisplayNumber, previousNum);
     previousNum = "";
-    previousDisplayNumber.textContent = "";
+    updateTextContent(historyDisplayNumber, "");
   }
 }
