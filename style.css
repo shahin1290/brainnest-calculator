@@ -1,0 +1,191 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+:root {
+  --body-bg: #e7e8ee;
+  --btn-color: #222222;
+  --highlight-color: #d54f1f;
+  --btn-color-grey: #e0d5d2;
+  --BxSi: 6px 6px 8px rgba(13, 39, 80, 0.25), -6px -6px 10px #fff,
+    inset -8px -8px 12px rgba(255, 255, 255, 0.7),
+    inset 5px 5px 8px rgba(13, 39, 80, 0.2);
+  --PSD-3d: 7px 7px 15px #45566754, -8px -8px 15px #5165790a,
+    inset -5px -4px 13px 0px #51657959, inset 6px 7px 12px 0px #fffffff0;
+  --num-background: linear-gradient(
+    to bottom right,
+    rgb(192 197 209),
+    rgb(237 238 245)
+  );
+  --num-shadow: inset 2px 2px 3px rgb(235 235 243),
+    inset 4px 4px 15px rgb(202 207 214), 3px 3px 12px rgb(194 199 212);
+}
+
+body.dark {
+  --body-bg: #1e212a;
+  --btn-color: #fff;
+  --btn-color-grey: #615b5b;
+  --BxSi: 6px 6px 8px rgb(0 0 0 / 50%), -6px -6px 10px rgb(255 255 255 / 5%),
+    inset -8px -8px 12px rgb(255 255 255 / 5%),
+    inset 5px 5px 8px rgb(0 0 0 / 50%);
+  --PSD-3d: 5px 5px 15px rgb(0 0 0 / 18%), 5px 15px 15px rgb(0 0 0 / 25%),
+    inset 5px 5px 10px rgb(0 0 0 / 50%),
+    inset 5px 5px 20px rgb(255 255 255 / 20%),
+    inset -5px -5px 15px rgb(0 0 0 / 75%);
+  --num-background: linear-gradient(
+    to bottom right,
+    rgb(41 45 56),
+    rgb(60 60 68)
+  );
+  --num-shadow: inset 1px 1px 1px rgb(57 60 74),
+    inset 4px 4px 15px rgb(32 35 45), 3px 3px 5px rgb(24 27 36);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  color: #000;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-content: center;
+  background: var(--body-bg);
+}
+
+main {
+  padding: 2rem;
+  border-radius: 30px;
+  box-shadow: var(--PSD-3d);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+main,
+button {
+  outline: none;
+}
+
+.result_area {
+  width: 70vw;
+  max-width: 320px;
+  height: 20vh;
+  padding: 16px 32px;
+  text-align: right;
+  border: none;
+  border-radius: 40px;
+  box-shadow: var(--BxSi);
+  word-wrap: break-word;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.history {
+  margin-top: 5px;
+  font-size: 15px;
+  color: #919191;
+}
+
+.output {
+  font-size: 30px;
+  color: var(--btn-color);
+}
+
+main .keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.8rem;
+  margin-top: 20px;
+}
+
+main button {
+  font-size: 20px;
+  font-weight: bold;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--num-shadow);
+  background: var(--num-background);
+  cursor: pointer;
+  color: var(--btn-color);
+}
+
+main button:last-child {
+  border-radius: 10%;
+  grid-column: 3/5;
+  width: 90%;
+}
+
+button:hover,
+button:active {
+  background: var(--btn-color-grey);
+}
+
+button:active {
+  box-shadow: inset -1px -1px 9px #fff, inset 1px 1px 9px rgba(0, 0, 0, 0.4);
+}
+
+.operator,
+.equal,
+.dot,
+.change,
+.delete,
+.clear {
+  color: var(--highlight-color);
+}
+
+footer p {
+  font-size: smaller;
+  padding-top: 20px;
+  text-align: center;
+  color: var(--highlight-color);
+}
+
+.dark-light {
+  right: 50px;
+  position: absolute;
+  top: 50px;
+  width: 60px;
+  height: 60px;
+  background: var(--num-background);
+  box-shadow: var(--num-shadow);
+  text-align: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dark-light img {
+  width: 30px;
+}
+
+.dark-light .sun {
+  display: none;
+  pointer-events: none;
+}
+.dark-light.active .sun {
+  display: block;
+  pointer-events: auto;
+}
+.dark-light.active .moon {
+  display: none;
+  pointer-events: none;
+}
+
+@media only screen and (max-width: 400px) {
+  main button {
+    width: 40px;
+    height: 40px;
+  }
+}
