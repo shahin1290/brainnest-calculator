@@ -118,7 +118,17 @@ main button {
   color: var(--btn-color);
 }
 
-main button:last-child {
+.clear {
+  border-radius: 10%;
+  grid-column: 1/3;
+  width: 90%;
+}
+/* .delete {
+  border-radius: 10%;
+  grid-column: 3/5;
+  width: 90%;
+} */
+.equal {
   border-radius: 10%;
   grid-column: 3/5;
   width: 90%;
