@@ -27,6 +27,10 @@ operators.forEach((btn) => {
 });
 
 function handleNumber(number) {
+  if (currentNum === "0") {
+    currentNum = number;
+    return;
+  }
   if (previousNum !== "" && currentNum !== "" && operator === "") {
     previousNum = "";
   } else {
